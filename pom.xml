@@ -95,7 +95,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.inventory.Main</mainClass>
+                    <mainClass>org.inventory.Launcher</mainClass>
                 </configuration>
             </plugin>
         </plugins>
