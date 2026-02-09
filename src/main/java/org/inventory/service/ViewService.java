@@ -1,98 +1,54 @@
 package org.inventory.service;
 
-import javafx.geometry.Insets;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.chart.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ViewService {
+    private final ApplicationContext context;
+    private final Map<String, Node> viewCache = new HashMap<>();
+    private javafx.scene.layout.BorderPane mainLayout;
+    private Node sidebar;
 
-    public Node getView(String viewName) {
-        VBox container = new VBox(25);
-        container.setPadding(new Insets(40));
+    public void setSidebar(Node sidebar) {
+        this.sidebar = sidebar;
+    }
 
-        Label title = new Label(viewName);
-        title.setFont(Font.font("System", FontWeight.BOLD, 32));
-        container.getChildren().add(title);
+    public void setMainLayout(javafx.scene.layout.BorderPane mainLayout) {
+        this.mainLayout = mainLayout;
+    }
 
-        switch (viewName) {
-            case "Dashboard": return buildDashboard(container);
-            case "Inventory": return buildInventoryTable(container);
-            case "Sales": return buildSalesAnalytics(container);
-            default: return container;
+    public void show(String viewName) {
+        if (mainLayout != null) {
+            mainLayout.setCenter(getView(viewName));
+            if ("Login".equalsIgnoreCase(viewName)) {
+                mainLayout.setLeft(null);
+            } else if (sidebar != null && mainLayout.getLeft() == null) {
+                mainLayout.setLeft(sidebar);
+            }
         }
     }
 
-    private Node buildDashboard(VBox container) {
-        // Stats Row (Cards)
-        HBox statsRow = new HBox(20);
-        statsRow.getChildren().addAll(
-                createCard("Average Value", "$128,100", "Won Deals"),
-                createCard("Monthly Goal", "$6.2M", "Target: $8.1M")
-        );
-
-        // Charts Row
-        HBox chartsRow = new HBox(20);
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-        barChart.setTitle("Sales by Rep");
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().add(new XYChart.Data<>("Rep A", 190));
-        series.getData().add(new XYChart.Data<>("Rep B", 160));
-        barChart.getData().add(series);
-
-        chartsRow.getChildren().add(barChart);
-        container.getChildren().addAll(statsRow, chartsRow);
-        return container;
+    public ViewService(ApplicationContext context) {
+        this.context = context;
     }
 
-    private Node buildInventoryTable(VBox container) {
-        TableView<Object> table = new TableView<>();
-        TableColumn<Object, String> nameCol = new TableColumn<>("Name");
-        TableColumn<Object, String> priceCol = new TableColumn<>("Price");
-        TableColumn<Object, String> stockCol = new TableColumn<>("Stock");
-
-        table.getColumns().addAll(nameCol, priceCol, stockCol);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        container.getChildren().add(table);
-        return container;
-    }
-
-    private Node buildSalesAnalytics(VBox container) {
-        LineChart<String, Number> salesTrend = new LineChart<>(new CategoryAxis(), new NumberAxis());
-        salesTrend.setTitle("Sales Growth Trend");
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().add(new XYChart.Data<>("Oct 1", 400));
-        series.getData().add(new XYChart.Data<>("Oct 15", 800));
-        series.getData().add(new XYChart.Data<>("Oct 22", 750));
-        salesTrend.getData().add(series);
-
-        container.getChildren().add(salesTrend);
-        return container;
-    }
-
-    private StackPane createCard(String title, String value, String subtitle) {
-        VBox content = new VBox(10);
-        content.setPadding(new Insets(20));
-        content.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-background-radius: 8;");
-
-        Label t = new Label(title);
-        Label v = new Label(value);
-        v.setFont(Font.font("System", FontWeight.BOLD, 28));
-        Label s = new Label(subtitle);
-        s.setTextFill(Color.GREY);
-
-        content.getChildren().addAll(t, v, s);
-        return new StackPane(content);
+    public Node getView(String viewName) {
+        // Caching reduces boot and navigation time
+        return viewCache.computeIfAbsent(viewName, name -> {
+            try {
+                String path = "/fxml/" + name.toLowerCase() + ".fxml";
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+                loader.setControllerFactory(context::getBean);
+                return loader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        });
     }
 }

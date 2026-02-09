@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inventory.ui.ReportsController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <Label text="Reports &amp; Analytics" styleClass="view-title"/>
+
+    <GridPane hgap="20" vgap="20">
+        <VBox styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="300">
+            <Label text="Inventory Report" style="-fx-font-weight: bold;"/>
+            <Label text="Export full inventory to Excel or PDF." wrapText="true" style="-fx-padding: 10 0;"/>
+            <HBox spacing="10">
+                <Button text="Excel" onAction="#handleInventoryExcel"/>
+                <Button text="PDF" onAction="#handleInventoryPDF"/>
+            </HBox>
+        </VBox>
+
+        <VBox styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300">
+            <Label text="Sales Summary" style="-fx-font-weight: bold;"/>
+            <Label text="Daily, Weekly, and Monthly sales reports." wrapText="true" style="-fx-padding: 10 0;"/>
+            <Button text="Generate Sales Report" onAction="#handleSalesReport"/>
+        </VBox>
+    </GridPane>
+</VBox>

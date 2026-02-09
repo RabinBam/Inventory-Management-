@@ -1,0 +1,51 @@
+.view-title { -fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; }
+.card {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+.card-label { -fx-font-size: 14px; -fx-text-fill: #7f8c8d; }
+.card-value { -fx-font-size: 26px; -fx-font-weight: bold; }
+.sidebar { -fx-background-color: #2c3e50; }
+.sidebar-logo {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20 0;
+}
+.nav-button {
+    -fx-text-fill: #ecf0f1;
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15 10 15;
+}
+.nav-button:hover { -fx-background-color: #34495e; -fx-cursor: hand; }
+.nav-button-logout {
+    -fx-text-fill: #e74c3c;
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15 10 15;
+}
+.nav-button-logout:hover { -fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; }
+
+/* Custom Title Bar Styles */
+.title-bar { -fx-background-color: #1a252f; }
+.title-bar-text { -fx-text-fill: #bdc3c7; -fx-font-size: 11px; }
+.window-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-min-width: 40;
+}
+.window-button:hover { -fx-background-color: #34495e; }
+.window-button-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-min-width: 40;
+}
+.window-button-close:hover { -fx-background-color: #e74c3c; }

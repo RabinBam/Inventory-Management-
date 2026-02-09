@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inventory.ui.InventoryController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+
+    <Label text="Inventory">
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Search Name or Product Code" prefWidth="250"/>
+        <ComboBox fx:id="categoryFilter" promptText="All Categories" prefWidth="150"/>
+        <Button text="Clear Filters" onAction="#handleClearFilters"/>
+        
+        <HBox fx:id="adminToolbar" spacing="10.0" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+             <Button fx:id="addButton" text="Add Product" onAction="#handleAdd"/>
+             <Button fx:id="importButton" text="Import Excel" onAction="#handleImportExcel"/>
+             <Button fx:id="editButton" text="Edit" onAction="#handleEdit"/>
+             <Button fx:id="deleteButton" text="Delete" onAction="#handleDelete"/>
+        </HBox>
+    </HBox>
+
+    <TableView fx:id="productTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="skuColumn" text="Product Code" prefWidth="120"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="250"/>
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
+            <TableColumn fx:id="stockColumn" text="Stock" prefWidth="80"/>
+            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>
